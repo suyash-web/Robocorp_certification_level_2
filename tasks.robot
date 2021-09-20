@@ -41,9 +41,17 @@ Get The URL From Vault And Open The Robot Order Website
     Log    ${url}
     Open Available Browser    ${url}[website]
 
+Collect Excel File From User
+    [Documentation]    Collecting excel file from user
+    Add Heading    Enter url of the csv file
+    Add Text Input    name=url
+    ${result}=    Run Dialog
+    [Return]    ${result.url}
+
 Get Orders
     [Documentation]    Getting Orders
-    Download    https://robotsparebinindustries.com/orders.csv    overwrite=True
+    ${csv_url}=    Collect Excel File From User
+    Download    ${csv_url}    overwrite=True
     ${table}=    Read Table From Csv    orders.csv    dialect=excel    header=True
     FOR    ${row}    IN    @{table}
         Log    ${row}
